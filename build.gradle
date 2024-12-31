@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
     implementation 'javax.xml.parsers:jaxp-api:1.4.5'
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // JSON processing (using Jackson)
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'

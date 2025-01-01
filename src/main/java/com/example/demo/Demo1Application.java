@@ -1,10 +1,12 @@
 package com.example.demo;
 
+import com.example.demo.record.CaptchaResponse;
 import com.example.demo.solver.CaptchaSolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
@@ -16,7 +18,6 @@ public class Demo1Application implements CommandLineRunner {
     @Autowired
     RestClient restClient;
 
-
     public static void main(String[] args) {
         SpringApplication.run(Demo1Application.class, args);
     }
@@ -25,7 +26,6 @@ public class Demo1Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         ResponseEntity<CaptchaResponse> response = restClient.get()
-                .uri("https://hoadondientu.gdt.gov.vn:30000/captcha")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<CaptchaResponse>() {});
 
@@ -41,4 +41,3 @@ public class Demo1Application implements CommandLineRunner {
     }
 }
 
-record CaptchaResponse(String key, String content) {}

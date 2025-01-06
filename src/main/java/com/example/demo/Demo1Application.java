@@ -25,19 +25,19 @@ public class Demo1Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        ResponseEntity<CaptchaResponse> response = restClient.get()
-                .retrieve()
-                .toEntity(new ParameterizedTypeReference<CaptchaResponse>() {});
-
-        CaptchaResponse captchaResponse = response.getBody();
-        String captchaCode = captchaResponse.key();
-        String captchaSvg = captchaResponse.content();
-
-        System.out.println("Response: " + captchaResponse.content());
-
-        String result = CaptchaSolver.solveCaptcha(captchaSvg);
-        System.out.println("Result: " + result);
-        System.out.println("Captcha code: " + captchaCode);
+//        ResponseEntity<CaptchaResponse> response = restClient.get()
+//                .retrieve()
+//                .toEntity(new ParameterizedTypeReference<CaptchaResponse>() {});
+//
+//        CaptchaResponse captchaResponse = response.getBody();
+//        String captchaCode = captchaResponse.key();
+//        String captchaSvg = captchaResponse.content();
+//
+////        System.out.println("Response: " + captchaResponse.content());
+//
+//        String result = CaptchaSolver.solveCaptcha(captchaSvg);
+//        System.out.println("Result: " + result);
+//        System.out.println("Captcha code: " + captchaCode);
     }
 }
 

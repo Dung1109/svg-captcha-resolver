@@ -25,12 +25,8 @@ public class CaptchaService {
         return response.getBody();
     }
 
-    public String getCaptchaCode() {
-        return fetchCaptcha().key();
-    }
-
-    public String solveCaptcha() {
+    public CaptchaResponse solveCaptcha() {
         CaptchaResponse captchaResponse = fetchCaptcha();
-        return CaptchaSolver.solveCaptcha(captchaResponse.content());
+        return new CaptchaResponse(captchaResponse.key(), CaptchaSolver.solveCaptcha(captchaResponse.content()));
     }
 }

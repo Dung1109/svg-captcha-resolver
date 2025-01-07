@@ -1,8 +1,10 @@
 package com.example.demo.config;
 
+import com.example.demo.holder.JwtHolder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
@@ -18,9 +20,11 @@ import java.security.cert.X509Certificate;
 public class RestClientConfig {
 
     private final Environment environment;
+    private final JwtHolder jwtHolder;
 
-    public RestClientConfig(Environment environment) {
+    public RestClientConfig(Environment environment, JwtHolder jwtHolder) {
         this.environment = environment;
+        this.jwtHolder = jwtHolder;
     }
 
     @Bean
@@ -28,13 +32,23 @@ public class RestClientConfig {
 // disable SSl Certification Validation if spring environment profile is `local`
 
         disableSSLCertificateValidation();
-        return RestClient.builder().baseUrl("https://hoadondientu.gdt.gov.vn:30000/").requestFactory(new SimpleClientHttpRequestFactory()).build();
+        return RestClient.builder().baseUrl("https://hoadondientu.gdt.gov.vn:30000/").requestFactory(new SimpleClientHttpRequestFactory())
+                .requestInterceptor(jwtInterceptor())
+                .build();
 //        if (environment.matchesProfiles("local")) {
 //            disableSSLCertificateValidation();
 //            return RestClient.builder().requestFactory(new SimpleClientHttpRequestFactory()).build();
 //        } else {
 //            return RestClient.create();
 //        }
+    }
+
+    private ClientHttpRequestInterceptor jwtInterceptor() {
+        return (request, body, execution) -> {
+            if (jwtHolder.getJwt() != null)
+                request.getHeaders().add("Authorization", "Bearer " + jwtHolder.getJwt());
+            return execution.execute(request, body);
+        };
     }
 
     /**

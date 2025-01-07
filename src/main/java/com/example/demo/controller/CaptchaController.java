@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.holder.JwtHolder;
+import com.example.demo.record.InvoiceResponse;
 import com.example.demo.record.LoginResponse;
 import com.example.demo.service.CaptchaService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +22,12 @@ public class CaptchaController {
 
     private final CaptchaService captchaService;
     private final RestClient restClient;
+    private final JwtHolder jwtHolder;
 
-    public CaptchaController(CaptchaService captchaService, RestClient restClient) {
+    public CaptchaController(CaptchaService captchaService, RestClient restClient, JwtHolder jwtHolder) {
         this.captchaService = captchaService;
         this.restClient = restClient;
+        this.jwtHolder = jwtHolder;
     }
 
     @GetMapping("/solve")
@@ -44,7 +48,25 @@ public class CaptchaController {
         var data = String.format("Captcha code: %s, Solved captcha: %s, Token: %s",
                 solvedCaptcha.key(), solvedCaptcha.content(), Objects.requireNonNull(response.getBody()).token());
 
+        jwtHolder.setJwt(Objects.requireNonNull(response.getBody()).token());
         return response;
+    }
+
+    @GetMapping("/token")
+    public String getToken() {
+        return jwtHolder.getJwt();
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<InvoiceResponse> test() {
+
+        ResponseEntity<InvoiceResponse> data = restClient.get()
+                .uri("/query/invoices/purchase?sort=tdlap:desc,khmshdon:asc,shdon:desc&size=15&search=tdlap=ge=06/01/2025T00:00:00;tdlap=le=07/01/2025T23:59:59;ttxly==5")
+                .retrieve()
+                .toEntity(new ParameterizedTypeReference<>() {
+                });
+        log.info("Response: {}", data.getBody());
+        return data;
     }
 }
 

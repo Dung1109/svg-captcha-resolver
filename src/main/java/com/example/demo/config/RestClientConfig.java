@@ -32,7 +32,7 @@ public class RestClientConfig {
 // disable SSl Certification Validation if spring environment profile is `local`
 
         disableSSLCertificateValidation();
-        return RestClient.builder().baseUrl("https://hoadondientu.gdt.gov.vn:30000/").requestFactory(new SimpleClientHttpRequestFactory())
+        return RestClient.builder().baseUrl("https://hoadondientu.gdt.gov.vn:30000").requestFactory(new SimpleClientHttpRequestFactory())
                 .requestInterceptor(jwtInterceptor())
                 .build();
 //        if (environment.matchesProfiles("local")) {

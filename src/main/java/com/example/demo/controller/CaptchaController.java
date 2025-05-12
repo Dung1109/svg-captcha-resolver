@@ -33,7 +33,7 @@ public class CaptchaController {
     @GetMapping("/solve")
     public ResponseEntity<LoginResponse> solveCaptcha() {
         var solvedCaptcha = captchaService.solveCaptcha();
-        LoginRequest requestBody = new LoginRequest(solvedCaptcha.key(), solvedCaptcha.content(), "Tayduong01@", "0108352261");
+        LoginRequest requestBody = new LoginRequest(solvedCaptcha.key(), solvedCaptcha.content(), "Tayduong01@@", "0108352261");
 
         log.info("Request body: {}", requestBody);
         ResponseEntity<LoginResponse> response = restClient.post()

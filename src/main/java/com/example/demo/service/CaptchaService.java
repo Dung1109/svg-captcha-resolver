@@ -27,6 +27,7 @@ public class CaptchaService {
 
     public CaptchaResponse solveCaptcha() {
         CaptchaResponse captchaResponse = fetchCaptcha();
+        System.out.println("Captcha response: " + captchaResponse.content());
         return new CaptchaResponse(captchaResponse.key(), CaptchaSolver.solveCaptcha(captchaResponse.content()));
     }
 }

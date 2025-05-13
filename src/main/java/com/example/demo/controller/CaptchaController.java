@@ -61,7 +61,7 @@ public class CaptchaController {
     public ResponseEntity<InvoiceResponse> test() {
 
         ResponseEntity<InvoiceResponse> data = restClient.get()
-                .uri("/query/invoices/purchase?sort=tdlap:desc,khmshdon:asc,shdon:desc&size=15&search=tdlap=ge=06/01/2025T00:00:00;tdlap=le=07/01/2025T23:59:59;ttxly==5")
+                .uri("/query/invoices/purchase?sort=tdlap:desc,khmshdon:asc,shdon:desc&size=15&search=tdlap=ge=06/01/2024T00:00:00;tdlap=le=07/01/2025T23:59:59;ttxly==5")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {
                 });
